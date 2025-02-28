@@ -1,0 +1,29 @@
+services:
+
+  parent.api:
+    image: ghcr.io/saifdev22/parent-api:latest
+    container_name: Starter.Parent.API 
+    build:
+      context: .
+      dockerfile: src/api/Parent.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "8055:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.parent-api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.parent-api.entrypoints=https"
+      - "traefik.http.routers.parent-api.rule=Host(`parent.webport.co.za`)"
+      - "traefik.http.routers.parent-api.tls=true"
+      - "traefik.http.routers.parent-api.tls.certresolver=cloudflare"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+

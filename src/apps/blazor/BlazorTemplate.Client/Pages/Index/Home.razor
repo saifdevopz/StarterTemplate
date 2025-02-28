@@ -1,0 +1,15 @@
+﻿@page "/home/dashboard"
+@using Microsoft.AspNetCore.Components.Authorization
+
+<PageTitle>Home</PageTitle>
+
+<AuthorizeView>
+    @foreach (var claim in context.User.Claims)
+    {
+        <p>@claim.Type - @claim.Value</p>
+    }
+</AuthorizeView>
+
+<AuthorizeView Roles="Admin">
+    <p>Only Admins can see this.</p>
+</AuthorizeView>

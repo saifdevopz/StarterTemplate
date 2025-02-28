@@ -1,0 +1,21 @@
+﻿{
+  "Users": {
+    "JwtOptions": {
+      "Key": "QsJbczCNysv/5SGh+U7sxedX8C07TPQPBdsnSDKZ/aE=",
+      "TokenExpirationInMinutes": 120,
+      "RefreshTokenExpirationInDays": 7,
+      "Issuer": "http://localhost:5000/",
+      "Audience": "http://localhost:5000/"
+    }
+  },
+  "Events": {
+    "Outbox": {
+      "IntervalInSeconds": 50,
+      "BatchSize": 20
+    },
+    "Inbox": {
+      "IntervalInSeconds": 50,
+      "BatchSize": 20
+    }
+  }
+}

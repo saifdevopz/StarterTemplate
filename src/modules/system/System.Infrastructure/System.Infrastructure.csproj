@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\Common.Infrastructure\Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\System.Application\System.Application.csproj" />
+    <ProjectReference Include="..\System.Presentation\System.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Database\Migrations\" />
+  </ItemGroup>
+
+</Project>

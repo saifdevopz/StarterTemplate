@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\Common.Presentation\Common.Presentation.csproj" />
+    <ProjectReference Include="..\..\store\Store.IntegrationEvents\Store.IntegrationEvents.csproj" />
+    <ProjectReference Include="..\Parent.Application\Parent.Application.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+﻿@page "/"
+
+<CascadingAuthenticationState>
+
+    @if (!(user?.Identity?.IsAuthenticated ?? false))
+    {
+        _navigationManager.NavigateTo("/identity/account/login");
+    }
+    else
+    {
+        _navigationManager.NavigateTo("/home/dashboard");
+    }
+
+</CascadingAuthenticationState>
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationState { get; set; }
+
+    private ClaimsPrincipal? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = (await AuthenticationState!).User;
+    }
+}

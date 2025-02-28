@@ -1,0 +1,197 @@
+﻿
+
+<!--=============== HEADER ===============-->
+<header class="header">
+    <nav class="nav container">
+        <div class="nav__data">
+            <AuthorizeView>
+                <a href="#" class="nav__logo">
+                    <i class="ri-planet-line"></i> @context.User.FindFirst("TenantName")?.Value
+                </a>
+            </AuthorizeView>
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="ri-menu-line nav__burger"></i>
+                <i class="ri-close-line nav__close"></i>
+            </div>
+        </div>         
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li><a href="#" class="nav__link">Home</a></li>
+
+                <AuthorizeView Roles="Admin">
+                    <!--=============== LINK 1 ===============-->
+                    <li><a href="#" class="nav__link">Components</a></li>
+                    
+                    <!--=============== LINK 2 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link">
+                            System <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="/tenanttype/index" class="dropdown__link">
+                                    <i class="ri-user-line"></i> Tenant Types
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-user-line"></i> Tenants
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-lock-line"></i> Users
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-message-3-line"></i> Roles
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                 </AuthorizeView>
+
+                 <AuthorizeView Roles="Customer">                 
+                    <!--=============== DROPDOWN 1 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link">
+                            Analytics <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-pie-chart-line"></i> Overview
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-arrow-up-down-line"></i> Transactions
+                                </a>
+                            </li>
+
+                            <!--=============== DROPDOWN SUBMENU ===============-->
+                            <li class="dropdown__subitem">
+                                <div class="dropdown__link">
+                                    <i class="ri-bar-chart-line"></i> Reports <i class="ri-add-line dropdown__add"></i>
+                                </div>
+
+                                <ul class="dropdown__submenu">
+                                    <li>
+                                        <a href="#" class="dropdown__sublink">
+                                            <i class="ri-file-list-line"></i> Documents
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="dropdown__sublink">
+                                            <i class="ri-cash-line"></i> Payments
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="dropdown__sublink">
+                                            <i class="ri-refund-2-line"></i> Refunds
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!--=============== DROPDOWN 2 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link">
+                            Settings <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-user-line"></i> Profiles
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-lock-line"></i> Accounts
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-message-3-line"></i> Messages
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!--=============== DROPDOWN 3 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link">
+                            Inventory <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-user-line"></i> Categories
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-lock-line"></i> Items
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="dropdown__link">
+                                    <i class="ri-message-3-line"></i> Sales
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </AuthorizeView>
+                <li @onclick="LogoutClicked"><a href="#" class="nav__link">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+@code {
+// State to track if the menu is visible
+private bool IsMenuVisible = false;
+
+private string? NavMenuCssClass => IsMenuVisible ? "nav__menu.show-menu" : "null";
+
+// Method to toggle the menu visibility
+private void ToggleMenu()
+{
+IsMenuVisible = !IsMenuVisible;
+}
+
+protected override async Task OnAfterRenderAsync(bool firstRender)
+{
+if (firstRender)
+{
+    await _js.InvokeVoidAsync("showMenu", "nav-toggle", "nav-menu");
+    StateHasChanged();
+}
+}
+
+async Task LogoutClicked()
+{
+var logoutModel = new TokenResponse();
+var customAuthStateProvider = (CustomAuthenticationStateProvider)_authenticationStateProvider;
+await customAuthStateProvider.UpdateAuthenticationState(logoutModel);
+_navigationManager.NavigateTo("/identity/account/login", replace: true, forceLoad: true);
+}
+}
+
+@* <div class="logo"> <span class="nav-btn">@context.User.Claims.FirstOrDefault(c => c.Type == "TenantName")!.Value</span></div> *@

@@ -1,0 +1,97 @@
+Gateway
+
+Add-Migration -Name InitialCreate -Context SystemDbContext -OutputDir Common/Database/Migrations -Project System.Infrastructure -StartupProject Gateway.API
+Update-Database -Context SystemDbContext -Project System.Infrastructure -StartupProject Gateway.API 
+
+Parent
+
+Add-Migration -Name InitialCreate -Context ParentDbContext -OutputDir Common/Database/Migrations  -Project Parent.Infrastructure -StartupProject Parent.API
+Update-Database -Context ParentDbContext -Project Parent.Infrastructure -StartupProject Parent.API 
+
+Store
+
+Add-Migration -Name InitialCreate -Context StoreDbContext -OutputDir Common/Database/Migrations  -Project Store.Infrastructure -StartupProject Starter.API
+Update-Database -Context StoreDbContext -Project Store.Infrastructure -StartupProject Starter.API 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+dotnet dev-certs https -ep C:\Users\saifd\Desktop\certs\.aspnet\https\aspnetapp.pfx -p 25122000
+dotnet dev-certs https --trust
+
+docker exec -it Starter.SQLServer sqlcmd -S host.docker.internal -U sa -P 25122000SK
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Project Reference
+
+Modules
+
+Domain => Common.Domain
+Infrastructure => Common.Infrastructure, Application, Presentation
+Application => Common.Application, Domain, IntegrationEvents
+Presentation => Common.Presentation, Application
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+docker-compose -f docker-compose.resources.yml up -d postgres.database
+docker-compose up -d
+docker-compose down
+
+--------------------------------------------------------------------------------------------------------------------------
+Creating Endpoint
+
+1. Create Model (Domain)
+
+2. Add Model To DbContext
+
+3. Configure Model
+
+4. Add CQRS
+
+5. Add Endpoint
+
+--------------------------------------------------------------------------------------------------------------------------
+
+UserM
+public virtual IReadOnlyCollection<UserRoleM>? UserRoles { get; set; } = [];
+
+RoleM
+public IReadOnlyCollection<UserRoleM> UserRoles { get; set; } = [];
+
+TenantM
+    public virtual TenantTypeM? TenantType { get; set; }
+    public virtual ICollection<UserM>? Users { get; }
+
+    TenantTypeM
+        public virtual ICollection<TenantM>? Tenants { get; }
+
+        //public partial class Program;
+//This is how to access strongly-typed configurations in Program.cs
+//var weatherOptions = builder.Configuration.GetSection(nameof(WeatherOptions)).Get<WeatherOptions>();
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+//builder.Services.AddSingleton<DatabaseInitializer>();
+
+
+    //private static async Task ApplyMigration2(this IApplicationBuilder app)
+    //{
+    //    using IServiceScope scope = app.ApplicationServices.CreateScope(); // Corrected this line
+    //                                                                       // Get the DatabaseInitializer service from the service provider
+    //    DatabaseInitializer databaseInitializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
+
+    //    // Initialize the database
+    //    await databaseInitializer.Execute(); // Initialize the database
+    //}
+
+    SELECT COUNT(*) FROM public.outbox_messages; --Number of Records
+SELECT * FROM public.outbox_messages; --List Records
+
+SELECT COUNT(*) FROM public.outbox_messages where processed_on_utc is not null; --Number Of Processed Messages
+SELECT * FROM public.outbox_messages where processed_on_utc is not null; --List Processed Messages
+
+SELECT * FROM public.outbox_messages where error is null; 
+
+SELECT * FROM public.outbox_messages where error is not null; --error Messages
+
+Host=102.211.206.231;Port=5432;Database=Company-1-DB;Username=sa;Password=25122000SK;Pooling=true;MinPoolSize=10;MaxPoolSize=100;Include Error Detail=true

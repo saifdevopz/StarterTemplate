@@ -1,0 +1,30 @@
+services:
+
+  blazor.api:
+    image: ghcr.io/saifdev22/blazor-api:latest
+    container_name: Starter.Blazor
+    build:
+      context: .
+      dockerfile: src/clients/Client.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - 8096:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.blazor-api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.blazor-api.entrypoints=https"
+      - "traefik.http.routers.blazor-api.rule=Host(`blazor.webport.co.za`)"
+      - "traefik.http.routers.blazor-api.tls=true"
+      - "traefik.http.routers.blazor-api.tls.certresolver=cloudflare"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+
+

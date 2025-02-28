@@ -1,0 +1,30 @@
+﻿@using BlazorTemplate.Client.Pages.Index
+@using Microsoft.AspNetCore.Components.Authorization
+
+<CascadingAuthenticationState>
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+    <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+        <Authorizing><h2>Please wait...</h2></Authorizing>
+        <NotAuthorized>
+            @if(context.User?.Identity?.IsAuthenticated == false)
+            {
+                <IndexPage />
+            }
+            else
+            {
+                <p>You are not authorised to access this resource.</p>
+                <h3>App.Razor</h3>
+            }
+        </NotAuthorized>
+    </AuthorizeRouteView>
+     <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+</CascadingAuthenticationState>

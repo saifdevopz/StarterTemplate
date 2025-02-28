@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\Common.Infrastructure\Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\Parent.Application\Parent.Application.csproj" />
+    <ProjectReference Include="..\Parent.Presentation\Parent.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Database\Migrations\" />
+    <Folder Include="Common\Outbox\" />
+  </ItemGroup>
+
+</Project>

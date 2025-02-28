@@ -1,0 +1,27 @@
+services:
+  gateway.api:
+    image: ghcr.io/saifdev22/gateway-api:latest
+    container_name: Starter.Gateway.API 
+    build:
+      context: .
+      dockerfile: src/api/Gateway.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "8050:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.gateway-api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.gateway-api.entrypoints=https"
+      - "traefik.http.routers.gateway-api.rule=Host(`gateway.webport.co.za`)"
+      - "traefik.http.routers.gateway-api.tls=true"
+      - "traefik.http.routers.gateway-api.tls.certresolver=cloudflare"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+

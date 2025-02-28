@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+
+<ErrorBoundary @ref="errorBoundary">
+    <ChildContent>
+        <AuthorizeView>
+            <Authorized>
+                <div class="main-wrapper">
+                    <Header />
+                    <article class="content px-4">
+                        @Body
+                    </article>
+                    <Footer />
+                </div>
+            </Authorized>
+            <NotAuthorized>@Body</NotAuthorized>
+        </AuthorizeView>
+    </ChildContent>
+
+    <ErrorContent Context="exception">
+        <p>Error Occurred!!! -  From Main</p>
+        <p>@exception.GetType()</p>
+        <p>@exception.Message</p>
+    </ErrorContent>
+</ErrorBoundary>
+
+@code {
+    private ErrorBoundary? errorBoundary;
+
+    protected override void OnParametersSet()
+    {
+        errorBoundary?.Recover();
+    }
+}
