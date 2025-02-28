@@ -1,0 +1,61 @@
+name: Gateway.API CI/CD
+
+on:
+ push:
+    branches:
+      - master 
+    paths:
+      - 'src/api/Gateway.API/**'
+ workflow_dispatch:
+
+jobs:
+ build_images:
+   name: Package Software
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout Code
+       uses: actions/checkout@v4
+     
+     - name: Log in to GitHub Container Registry
+       run: echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+     
+     - name: Build and Push Docker Image using Docker Compose
+       run: |
+         IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/gateway-api
+         TAG=$(echo $GITHUB_SHA | cut -c1-7)
+         docker compose -f docker-compose.gateway.yml build
+         docker compose -f docker-compose.gateway.yml push
+
+ copy_files:
+  name: Copy files to server
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY}}
+        source: docker-compose.gateway.yml
+        target: /root/starter-api-install
+  
+ update_server:
+  name: Deploy to Server
+  runs-on: ubuntu-latest
+  needs: build_images
+  steps:
+    - name: Replacing container
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        script: |
+          cd /root/starter-api-install
+          docker-compose -f docker-compose.gateway.yml down || true
+          docker image prune -a -f
+          docker-compose pull
+          docker-compose -f docker-compose.gateway.yml up -d
+      
+        
