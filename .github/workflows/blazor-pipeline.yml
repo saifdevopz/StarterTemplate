@@ -1,4 +1,4 @@
-name: Starter CI/
+name: Blazor CI/CD
 
 on:
  workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
      
      - name: Build and Push Docker Image using Docker Compose
        run: |
-         IMAGE_NAME=ghcr.io/saifdev22/blazor-api
+         IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/blazor-api
          TAG=$(echo $GITHUB_SHA | cut -c1-7)
          docker compose -f docker-compose.blazor.yml build
          docker compose -f docker-compose.blazor.yml push
