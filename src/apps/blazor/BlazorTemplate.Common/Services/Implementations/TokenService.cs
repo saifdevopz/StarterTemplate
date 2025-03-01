@@ -31,19 +31,9 @@ public class TokenService(CustomHttpClient httpClient) : ITokenService
         }
         else
         {
-            //ApiErrorResponse? errorMessage = await response.Content.ReadFromJsonAsync<ApiErrorResponse>();
-            return new TokenResponse();
+            ApiErrorResponse? errorMessage = await response.Content.ReadFromJsonAsync<ApiErrorResponse>();
+            return new TokenResponse { Error = errorMessage?.Detail ?? "Unknown error occurred." };
         }
 
     }
-
-    //internal sealed class ApiErrorResponse
-    //{
-    //    public string? Type { get; set; }
-    //    public string? Title { get; set; }
-    //    public int Status { get; set; }
-    //    public string? Detail { get; set; }
-    //    public string? TraceId { get; set; }
-    //}
-
 }

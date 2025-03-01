@@ -19,6 +19,7 @@ public class TokenResponse
     public string Token { get; set; } = string.Empty;
     public string RefreshToken { get; set; } = string.Empty;
     public DateTime? RefreshTokenExpiryTime { get; set; }
+    public string? Error { get; set; }
 }
 
 public record TokenRequest(string Token, string RefreshToken);
