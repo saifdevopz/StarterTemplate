@@ -1,7 +1,7 @@
 services:
 
   child1.api:
-    image: ghcr.io/saifdev22/child1-api:latest
+    image: ghcr.io/saifdevopz/child1-api:latest
     container_name: Starter.Child1.API 
     build:
       context: .
