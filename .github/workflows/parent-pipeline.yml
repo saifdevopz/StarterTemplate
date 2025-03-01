@@ -21,7 +21,7 @@ jobs:
      
      - name: Build and Push Docker Image using Docker Compose
        run: |
-         IMAGE_NAME=ghcr.io/saifdev22/parent-api
+         IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/parent-api
          TAG=$(echo $GITHUB_SHA | cut -c1-7)
          docker compose -f docker-compose.yml build
          docker compose -f docker-compose.yml push
