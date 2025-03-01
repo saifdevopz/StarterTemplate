@@ -1,7 +1,7 @@
 services:
 
   blazor.api:
-    image: ghcr.io/saifdev22/blazor-api:latest
+    image: ghcr.io/saifdevopz/blazor-api:latest
     container_name: Starter.Blazor
     build:
       context: .
