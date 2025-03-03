@@ -1,0 +1,47 @@
+﻿@page "/radiobutton-control"
+
+<PageTitle>Radio Button</PageTitle>
+<h2>Radio Button</h2>
+<br />
+<div id="ControlRegion">
+    <div class="control-section">
+        <div class="radio-control">
+            <h4 class="row">Select a payment method</h4>
+            <div class="row">
+                <SfRadioButton Label="Credit/Debit Card" Name="payment" Value="credit/debit" Checked="@CheckedValue"></SfRadioButton>
+            </div>
+            <div class="row">
+                <SfRadioButton Label="Net Banking" Name="payment" Value="netbanking" Checked="@CheckedValue"></SfRadioButton>
+            </div>
+            <div class="row">
+                <SfRadioButton Label="Cash on Delivery" Name="payment" Value="cashondelivery" Checked="@CheckedValue"></SfRadioButton>
+            </div>
+            <div class="row">
+                <SfRadioButton Label="Other Wallets" Name="payment" Value="others" Checked="@CheckedValue"></SfRadioButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #ControlRegion {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .radio-control {
+        margin: 5% 0 5% 40%;
+    }
+
+    .control-section .row {
+        margin: 20px 0;
+    }
+
+    .e-bigger .radio-control h4 {
+        font-size: 20px;
+    }
+</style>
+
+@code {
+    private string CheckedValue = "credit/debit";
+}

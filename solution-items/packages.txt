@@ -11,6 +11,7 @@ Open Telemetry
 BenchmarkDotNet
 BCrypt.Net
 Health Checks
+Consul
 
 API Documentation
 -Swashbuckle

@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: src/apps/blazor/BlazorTemplate.Server/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
     ports:
       - 8096:8080

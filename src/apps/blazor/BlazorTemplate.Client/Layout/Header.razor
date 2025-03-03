@@ -20,6 +20,101 @@
 
                 <li class="dropdown__item">
                     <div class="nav__link">
+                        Components <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                    </div>
+
+                    <ul class="dropdown__menu">
+                        <li class="dropdown__subitem">
+                            <div class="dropdown__link">
+                                <i class="ri-bar-chart-line"></i> Input Controls <i class="ri-add-line dropdown__add"></i>
+                            </div>
+
+                            <ul class="dropdown__submenu">
+                                <li>
+                                    <a href="/textbox-control" class="dropdown__link">
+                                        <i class="ri-user-line"></i> TextBox
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/textarea-control" class="dropdown__link">
+                                        <i class="ri-user-line"></i> TextArea
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/radiobutton-control" class="dropdown__link">
+                                        <i class="ri-lock-line"></i> Radio
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/calendar-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> Calendar Control
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/checkbox-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> Checkbox Control
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/colorpicker-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> ColourPicker Control
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/combobox-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> ComboBox Control
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>            
+                        <li class="dropdown__subitem">
+                            <div class="dropdown__link">
+                                <i class="ri-bar-chart-line"></i> Other Controls <i class="ri-add-line dropdown__add"></i>
+                            </div>
+
+                            <ul class="dropdown__submenu">
+                                <li>
+                                    <a href="/dialog-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> Dialog Control
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/fileupload-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> File Upload Control
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/listbox-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> ListBox Control
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/listview-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> ListView Control
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/multicolumncombobox-control" class="dropdown__link">
+                                        <i class="ri-message-3-line"></i> Multi ComboBox
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown__item">
+                    <div class="nav__link">
                         Demos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
                     </div>
 
@@ -49,10 +144,7 @@
                     </ul>
                 </li>
 
-                <AuthorizeView Roles="Admin">
-                    <!--=============== LINK 1 ===============-->
-                    <li><a href="#" class="nav__link">Components</a></li>
-                    
+                <AuthorizeView Roles="Admin">                    
                     <!--=============== LINK 2 ===============-->
                     <li class="dropdown__item">
                         <div class="nav__link">
@@ -61,7 +153,7 @@
 
                         <ul class="dropdown__menu">
                             <li>
-                                <a href="/tenanttype/index" class="dropdown__link">
+                                <a href="#" class="dropdown__link">
                                     <i class="ri-user-line"></i> Tenant Types
                                 </a>
                             </li>
@@ -196,33 +288,49 @@
 </header>
 
 @code {
-// State to track if the menu is visible
-private bool IsMenuVisible = false;
+    // State to track if the menu is visible
+    private bool IsMenuVisible = false;
 
-private string? NavMenuCssClass => IsMenuVisible ? "nav__menu.show-menu" : "null";
+    private string? NavMenuCssClass => IsMenuVisible ? "nav__menu.show-menu" : "null";
 
-// Method to toggle the menu visibility
-private void ToggleMenu()
-{
-IsMenuVisible = !IsMenuVisible;
-}
+    // Method to toggle the menu visibility
+    private void ToggleMenu()
+    {
+        IsMenuVisible = !IsMenuVisible;
+    }
 
-protected override async Task OnAfterRenderAsync(bool firstRender)
-{
-if (firstRender)
-{
-    await _js.InvokeVoidAsync("showMenu", "nav-toggle", "nav-menu");
-    StateHasChanged();
-}
-}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _js.InvokeVoidAsync("showMenu", "nav-toggle", "nav-menu");
+            StateHasChanged();
+        }
+    }
 
-async Task LogoutClicked()
-{
-var logoutModel = new TokenResponse();
-var customAuthStateProvider = (CustomAuthenticationStateProvider)_authenticationStateProvider;
-await customAuthStateProvider.UpdateAuthenticationState(logoutModel);
-_navigationManager.NavigateTo("/identity/account/login", replace: true, forceLoad: true);
-}
+    private async Task LogoutClicked()
+    {
+        // var logoutModel = new TokenResponse();
+        // var customAuthStateProvider = (CustomAuthenticationStateProvider)_authenticationStateProvider;
+        // await customAuthStateProvider.UpdateAuthenticationState(logoutModel);
+        // _navigationManager.NavigateTo("/identity/account/login", replace: true, forceLoad: true);
+        try
+        {
+            var logoutModel = new TokenResponse();
+
+            if (_authenticationStateProvider is CustomAuthenticationStateProvider customAuthStateProvider)
+            {
+                await customAuthStateProvider.UpdateAuthenticationState(logoutModel);
+            }
+
+            _navigationManager.NavigateTo("/identity/account/login", replace: true, forceLoad: true);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Logout failed: {ex.Message}");
+        }
+    }
+
 }
 
 @* <div class="logo"> <span class="nav-btn">@context.User.Claims.FirstOrDefault(c => c.Type == "TenantName")!.Value</span></div> *@
