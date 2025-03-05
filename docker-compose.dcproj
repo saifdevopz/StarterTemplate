@@ -10,7 +10,7 @@
     <DockerServiceName>starter.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="docker-compose.blazor-server.yaml" />
+    <None Include="docker-compose.blazor-server.yml" />
     <None Include="docker-compose.child1.yml" />
     <None Include="docker-compose.blazor.yml" />
     <None Include="docker-compose.gateway.yml" />
