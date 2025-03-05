@@ -33,7 +33,7 @@ jobs:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SERVER_SSH_KEY}}
-        source: docker-compose.blazor.yml
+        source: docker-compose.blazor-server.yml
         target: /root/starter-api-install
   
  update_server:
