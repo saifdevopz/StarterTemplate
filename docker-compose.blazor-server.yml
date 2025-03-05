@@ -13,11 +13,11 @@ services:
       - 8098:8080
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.blazor-api.loadbalancer.server.port=8080"
-      - "traefik.http.routers.blazor-api.entrypoints=https"
-      - "traefik.http.routers.blazor-api.rule=Host(`blazorserver.webport.co.za`)"
-      - "traefik.http.routers.blazor-api.tls=true"
-      - "traefik.http.routers.blazor-api.tls.certresolver=cloudflare"
+      - "traefik.http.services.blazor-server.loadbalancer.server.port=8080"
+      - "traefik.http.routers.blazor-server.entrypoints=https"
+      - "traefik.http.routers.blazor-server.rule=Host(`blazorserver.webport.co.za`)"
+      - "traefik.http.routers.blazor-server.tls=true"
+      - "traefik.http.routers.blazor-server.tls.certresolver=cloudflare"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
     networks:
       - proxy
