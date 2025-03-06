@@ -1,8 +1,8 @@
 services:
 
   blazor.wasm.pwa:
-    image: ghcr.io/saifdevopz/blazor.pwa:latest
-    container_name: Starter.BlazorPwa
+    image: ghcr.io/saifdevopz/blazor-pwa:latest
+    container_name: Starter.BlazorPWA
     build:
       context: .
       dockerfile: src/apps/blazor-pwa/BlazorWasmTemplate.Server/Dockerfile
