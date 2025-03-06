@@ -17,7 +17,7 @@ jobs:
      
      - name: Build and Push Docker Image using Docker Compose
        run: |
-         IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/blazor-server
+         IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/blazor-pwa
          TAG=$(echo $GITHUB_SHA | cut -c1-7)
          docker compose -f docker-compose-blazor-pwa.yml build
          docker compose -f docker-compose-blazor-pwa.yml push
