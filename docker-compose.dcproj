@@ -10,7 +10,7 @@
     <DockerServiceName>starter.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="docker-compose-blazor-wasm-pwa.yml" />
+    <None Include="docker-compose-blazor-pwa.yml" />
     <None Include="docker-compose.blazor-server.yml" />
     <None Include="docker-compose.child1.yml" />
     <None Include="docker-compose.blazor.yml" />
