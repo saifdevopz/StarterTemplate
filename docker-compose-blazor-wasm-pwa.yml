@@ -1,0 +1,30 @@
+services:
+
+  blazor.wasm.pwa:
+    image: ghcr.io/saifdevopz/blazor.wasm.pwa:latest
+    container_name: Starter.BlazorWasmPwa
+    build:
+      context: .
+      dockerfile: src/apps/blazor-wasm-pwa/BlazorWasmTemplate.Server/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - 8097:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.blazor-wasm-pwa.loadbalancer.server.port=8080"
+      - "traefik.http.routers.blazor-wasm-pwa.entrypoints=https"
+      - "traefik.http.routers.blazor-wasm-pwa.rule=Host(`blazorpwa.webport.co.za`)"
+      - "traefik.http.routers.blazor-wasm-pwa.tls=true"
+      - "traefik.http.routers.blazor-wasm-pwa.tls.certresolver=cloudflare"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+
+
