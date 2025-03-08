@@ -1,6 +1,6 @@
 ﻿namespace BlazorWasmTemplate.Models;
 
-internal class Person
+internal sealed class Person
 {
     public long? Id { get; set; }
     public string? FirstName { get; set; }
