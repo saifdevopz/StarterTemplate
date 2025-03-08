@@ -53,3 +53,8 @@ async function onFetch(event) {
 
     return cachedResponse || fetch(event.request);
 }
+
+// Toolbelt.Blazor.PWA.Updater
+self.addEventListener('message', event => {
+    if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+});

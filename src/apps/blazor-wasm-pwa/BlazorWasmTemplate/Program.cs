@@ -2,10 +2,13 @@ using BlazorWasmTemplate;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TG.Blazor.IndexedDB;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.Services.AddPWAUpdater();
 
 builder.Services.AddIndexedDB(dbStore =>
 {
