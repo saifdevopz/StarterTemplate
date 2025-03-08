@@ -1,6 +1,9 @@
 name: Blazor_PWA CI/CD
 
 on:
+ push:
+    paths:
+      - 'src/apps/blazor-wasm-pwa/**'
  workflow_dispatch:
 
 jobs:

@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using BlazorWasmTemplate.Pages.IndexedDb
+@inherits LayoutComponentBase
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,6 +7,18 @@
 
     <main>
         <div class="top-row px-4">
+            <ConnectivityIndicator>
+                <ShowOnline>
+                    <img alt="Online"
+                         title="Application running online."
+                         src="./images/internet-on.png" />
+                </ShowOnline>
+                <ShowOffline>
+                    <img alt="Offline"
+                         title="Application running offline."
+                         src="./images/internet-off.png" />
+                </ShowOffline>
+            </ConnectivityIndicator>
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
 
