@@ -1,0 +1,47 @@
+﻿@page "/offlinedb"
+
+<h3>IndexedDbSample</h3>
+
+<input @bind="personObj.FirstName" placeholder="First Name" />
+<input @bind="personObj.LastName" placeholder="Last Name" />
+
+<button @onclick="AddRecord">Add Record</button>
+
+<ul>
+    @foreach (var item in personList)
+    {
+        <li>@item.FirstName - @item.LastName</li>
+    }
+</ul>
+
+@code {
+    private List<Person> personList = new();
+    private Person personObj = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllRecords();
+    }
+
+    private async Task GetAllRecords()
+    {
+        personList = await _IndexedDBManager.GetRecords<Person>("Employees");
+    }
+
+    private async Task AddRecord()
+    {
+        var newRecord = new StoreRecord<Person>
+        {
+            Storename = "Employees",
+            Data = personObj
+        };
+
+        await _IndexedDBManager.AddRecord(newRecord);
+    }
+
+    private async Task GetAllRecordById()
+    {
+        personObj = await _IndexedDBManager.GetRecordById<long, Person>(_IndexedDBManager.Stores[0].Name, 1); // 1 - Id
+    }
+
+}
