@@ -11,6 +11,7 @@
     @foreach (var item in personList)
     {
         <li>@item.FirstName - @item.LastName</li>
+        <button @onclick="() => DeleteRecord(item.Id)">Delete</button>
     }
 </ul>
 
@@ -25,14 +26,14 @@
 
     private async Task GetAllRecords()
     {
-        personList = await _IndexedDBManager.GetRecords<Person>("Employees");
+        personList = await _IndexedDBManager.GetRecords<Person>("EmployeesData");
     }
 
     private async Task AddRecord()
     {
         var newRecord = new StoreRecord<Person>
         {
-            Storename = "Employees",
+            Storename = "EmployeesData",
             Data = personObj
         };
 
@@ -43,6 +44,14 @@
     private async Task GetAllRecordById()
     {
         personObj = await _IndexedDBManager.GetRecordById<long, Person>(_IndexedDBManager.Stores[0].Name, 1); // 1 - Id
+    }
+
+    private async Task DeleteRecord(long? id)
+    {
+        if (id == null) return;
+
+        await _IndexedDBManager.DeleteRecord<long>("EmployeesData", id.Value);
+        await GetAllRecords();
     }
 
 }
