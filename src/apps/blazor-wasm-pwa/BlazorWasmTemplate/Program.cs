@@ -12,12 +12,12 @@ builder.Services.AddPWAUpdater();
 
 builder.Services.AddIndexedDB(dbStore =>
 {
-    dbStore.DbName = "TheFactory";
+    dbStore.DbName = "EmployeeDB";
     dbStore.Version = 1;
 
     dbStore.Stores.Add(new StoreSchema
     {
-        Name = "Employees",
+        Name = "EmployeesData",
         PrimaryKey = new IndexSpec { Name = "id", KeyPath = "id", Unique = true, Auto = true },
         Indexes =
                     [

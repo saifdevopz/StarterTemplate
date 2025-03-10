@@ -37,6 +37,7 @@
         };
 
         await _IndexedDBManager.AddRecord(newRecord);
+        await GetAllRecords();
     }
 
     private async Task GetAllRecordById()

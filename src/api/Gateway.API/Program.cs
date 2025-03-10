@@ -29,6 +29,9 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configu
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+// Controller Support
+builder.Services.AddControllers();
+
 // Minimal API Support
 builder.Services.AddEndpointsApiExplorer();
 
@@ -108,6 +111,8 @@ builder.Services.AddCors(options =>
 
 WebApplication app = builder.Build();
 
+app.MapControllers();
+
 app.UseCors("MyPolicy");
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
@@ -116,6 +121,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.MapScalarApiReference(_ =>
     {
         _.Servers = [];
+        _.Theme = ScalarTheme.Kepler;
     });
 
     await app.ApplyAllMigrations();
