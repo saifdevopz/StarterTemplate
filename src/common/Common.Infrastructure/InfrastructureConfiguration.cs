@@ -29,7 +29,6 @@ public static class InfrastructureConfiguration
         string serviceName,
         Action<IRegistrationConfigurator, string>[] moduleConfigureConsumers,
         //RabbitMqSettings rabbitMqSettings,
-        //string databaseConnectionString,
         string redisConnectionString)
     {
         // Mail
@@ -49,10 +48,6 @@ public static class InfrastructureConfiguration
 
         //Interceptors
         services.TryAddSingleton<InsertOutboxMessagesInterceptor>();
-
-        //PostgreSQL
-        //NpgsqlDataSource npgsqlDataSource = new NpgsqlDataSourceBuilder(databaseConnectionString).Build();
-        //services.TryAddSingleton(npgsqlDataSource);
 
         //Dapper
         SqlMapper.AddTypeHandler(new GenericArrayHandler<string>());

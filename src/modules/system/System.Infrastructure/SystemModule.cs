@@ -59,6 +59,10 @@ public static class SystemModule
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+        //PostgreSQL
+        //NpgsqlDataSource npgsqlDataSource = new NpgsqlDataSourceBuilder(databaseConnectionString).Build();
+        //services.TryAddSingleton(npgsqlDataSource);
+
         services.AddDbContext<SystemDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<InsertOutboxMessagesInterceptor>());

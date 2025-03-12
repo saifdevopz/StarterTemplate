@@ -4,11 +4,9 @@ using Child1.API.OpenTelemetry;
 using Common.Application;
 using Common.Infrastructure;
 using Common.Infrastructure.Configuration;
-using Common.Infrastructure.Events;
 using Common.Presentation.Endpoints;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using RabbitMQ.Client;
 using Scalar.AspNetCore;
 using Serilog;
 using Store.Infrastructure;
@@ -20,7 +18,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Connection Strings
 string parentConnectionString = builder.Configuration.GetValueOrThrow<string>("PostgreSQL:DefaultConnection");
 string redisConnectionString = builder.Configuration.GetValueOrThrow<string>("Redis:DefaultConnection");
-RabbitMqSettings rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqSettings>()!;
+//RabbitMqSettings rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqSettings>()!;
 
 // Controller API Support
 builder.Services.AddControllers().AddJsonOptions(x =>
@@ -52,7 +50,6 @@ builder.Services.AddCommonInfrastructure(
         StoreModule.ConfigureConsumers,
     ],
     //rabbitMqSettings,
-    //parentConnectionString,
     redisConnectionString);
 
 // Adding Other Modules
@@ -66,17 +63,17 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(parentConnectionString)
-    .AddRabbitMQ(sp =>
-    {
-        ConnectionFactory factory = new()
-        {
-            HostName = rabbitMqSettings.Host,
-            UserName = rabbitMqSettings.UserName,
-            Port = 5672,
-            Password = rabbitMqSettings.Password,
-        };
-        return factory.CreateConnectionAsync();
-    })
+    //.AddRabbitMQ(sp =>
+    //{
+    //    ConnectionFactory factory = new()
+    //    {
+    //        HostName = rabbitMqSettings.Host,
+    //        UserName = rabbitMqSettings.UserName,
+    //        Port = 5672,
+    //        Password = rabbitMqSettings.Password,
+    //    };
+    //    return factory.CreateConnectionAsync();
+    //})
     .AddRedis(redisConnectionString);
 
 // Add CORS
