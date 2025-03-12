@@ -51,8 +51,8 @@ builder.Services.AddCommonInfrastructure(
     [
         ParentModule.ConfigureConsumers,
     ],
-    rabbitMqSettings,
-    parentConnectionString,
+    //rabbitMqSettings,
+    //parentConnectionString,
     redisConnectionString);
 
 // Adding Other Modules

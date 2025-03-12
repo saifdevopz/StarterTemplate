@@ -1,7 +1,6 @@
 using Common.Application;
 using Common.Infrastructure;
 using Common.Infrastructure.Configuration;
-using Common.Infrastructure.Events;
 using Common.Presentation.Endpoints;
 using Gateway.API.Extensions;
 using Gateway.API.Middleware;
@@ -10,7 +9,6 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using RabbitMQ.Client;
 using Scalar.AspNetCore;
 using Serilog;
 using System.Infrastructure;
@@ -21,7 +19,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Connection Strings
 string systemConnectionString = builder.Configuration.GetValueOrThrow<string>("SQLServer:DefaultConnection");
 string redisConnectionString = builder.Configuration.GetValueOrThrow<string>("Redis:DefaultConnection");
-RabbitMqSettings rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqSettings>()!;
+//RabbitMqSettings rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqSettings>()!;
 
 builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
 
@@ -50,8 +48,8 @@ builder.Services.AddCommonInfrastructure(
     [
         SystemModule.ConfigureConsumers,
     ],
-    rabbitMqSettings,
-    systemConnectionString,
+    //rabbitMqSettings,
+    //systemConnectionString,
     redisConnectionString
     );
 
@@ -85,17 +83,17 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddHealthChecks()
     .AddSqlServer(systemConnectionString)
-    .AddRabbitMQ(sp =>
-    {
-        ConnectionFactory factory = new()
-        {
-            HostName = rabbitMqSettings.Host,
-            UserName = rabbitMqSettings.UserName,
-            Port = 5672,
-            Password = rabbitMqSettings.Password,
-        };
-        return factory.CreateConnectionAsync();
-    })
+    //.AddRabbitMQ(sp =>
+    //{
+    //    ConnectionFactory factory = new()
+    //    {
+    //        HostName = rabbitMqSettings.Host,
+    //        UserName = rabbitMqSettings.UserName,
+    //        Port = 5672,
+    //        Password = rabbitMqSettings.Password,
+    //    };
+    //    return factory.CreateConnectionAsync();
+    //})
     .AddRedis(redisConnectionString);
 
 // Add CORS

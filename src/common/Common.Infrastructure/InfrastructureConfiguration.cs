@@ -7,7 +7,6 @@ using Common.Infrastructure.Authorization;
 using Common.Infrastructure.Caching;
 using Common.Infrastructure.Clock;
 using Common.Infrastructure.Database;
-using Common.Infrastructure.Events;
 using Common.Infrastructure.Interceptors;
 using Common.Infrastructure.Mail;
 using Common.Infrastructure.System;
@@ -29,8 +28,8 @@ public static class InfrastructureConfiguration
         this IServiceCollection services,
         string serviceName,
         Action<IRegistrationConfigurator, string>[] moduleConfigureConsumers,
-        RabbitMqSettings rabbitMqSettings,
-        string databaseConnectionString,
+        //RabbitMqSettings rabbitMqSettings,
+        //string databaseConnectionString,
         string redisConnectionString)
     {
         // Mail
@@ -83,7 +82,6 @@ public static class InfrastructureConfiguration
 
         services.TryAddSingleton<ICacheService, CacheService>();
 
-        // Event Messaging
         services.AddMassTransit(configure =>
         {
             string instanceId = serviceName.ToUpperInvariant().Replace('.', '-');
@@ -93,18 +91,22 @@ public static class InfrastructureConfiguration
             }
 
             configure.SetKebabCaseEndpointNameFormatter();
-
-            configure.UsingRabbitMq((context, cfg) =>
+            configure.UsingInMemory((context, configure) =>
             {
-                cfg.Host(new Uri(rabbitMqSettings.Host), h =>
-                {
-                    h.Username(rabbitMqSettings.UserName);
-                    h.Password(rabbitMqSettings.Password);
-                    h.MaxMessageSize(500000);
-                });
-
-                cfg.ConfigureEndpoints(context);
+                configure.ConfigureEndpoints(context);
             });
+
+            //configure.UsingRabbitMq((context, cfg) =>
+            //{
+            //    cfg.Host(new Uri(rabbitMqSettings.Host), h =>
+            //    {
+            //        h.Username(rabbitMqSettings.UserName);
+            //        h.Password(rabbitMqSettings.Password);
+            //        h.MaxMessageSize(500000);
+            //    });
+
+            //    cfg.ConfigureEndpoints(context);
+            //});
         });
 
         // OpenTelemetry tracing
