@@ -77,11 +77,11 @@ public static class SystemModule
 
         services.AddTransient<DataSeeder>();
 
-        //services.Configure<OutboxOptions>(configuration.GetSection("Events:Outbox"));
-        //services.ConfigureOptions<ConfigureProcessOutboxJob>();
+        services.Configure<OutboxOptions>(configuration.GetSection("Events:Outbox"));
+        services.ConfigureOptions<ConfigureProcessOutboxJob>();
 
-        //services.Configure<InboxOptions>(configuration.GetSection("Events:Inbox"));
-        //services.ConfigureOptions<ConfigureProcessInboxJob>();
+        services.Configure<InboxOptions>(configuration.GetSection("Events:Inbox"));
+        services.ConfigureOptions<ConfigureProcessInboxJob>();
     }
 
     public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator, string instanceId)

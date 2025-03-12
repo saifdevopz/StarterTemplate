@@ -23,7 +23,7 @@ public static class StoreModule
     {
         ArgumentNullException.ThrowIfNull(configuration);
 
-        services.AddInfrastructure();
+        services.AddInfrastructure(configuration);
 
         services.AddDomainEventHandlers();
 
@@ -34,7 +34,7 @@ public static class StoreModule
         return services;
     }
 
-    private static void AddInfrastructure(this IServiceCollection services)
+    private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         string defaultContextName = Assembly.GetCallingAssembly().GetName().Name!;
         services.AddScoped<IDbContextProvider>(sp =>
@@ -59,11 +59,11 @@ public static class StoreModule
             });
         });
 
-        //services.Configure<OutboxOptions>(configuration.GetSection("Store:Outbox"));
-        //services.ConfigureOptions<ConfigureProcessOutboxJob>();
+        services.Configure<OutboxOptions>(configuration.GetSection("Store:Outbox"));
+        services.ConfigureOptions<ConfigureProcessOutboxJob>();
 
-        //services.Configure<InboxOptions>(configuration.GetSection("Store:Inbox"));
-        //services.ConfigureOptions<ConfigureProcessInboxJob>();
+        services.Configure<InboxOptions>(configuration.GetSection("Store:Inbox"));
+        services.ConfigureOptions<ConfigureProcessInboxJob>();
     }
 
     public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator, string instanceId)
