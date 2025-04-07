@@ -5,7 +5,7 @@ services:
     container_name: Starter.BlazorServer
     build:
       context: .
-      dockerfile: src/apps/blazor-server/BlazorServerTemplate/Dockerfile
+      dockerfile: src/apps/blazor-server/BlazorServerApp/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
