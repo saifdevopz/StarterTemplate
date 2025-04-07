@@ -1,0 +1,65 @@
+NET API
+Blazor Server
+PostgreSQL
+
+-------------------------------------------------------------------------------------------------------------------------
+
+API
+- Fix Repository In System Module
+- Fix Generic Repository For All Modules
+- Fix Result Pattern
+- Fluent Validation Error Response
+- Make Postgres Default Database For Parent With Backups
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Blazor
+
+- API Error & Exception Handling
+_ Blazor CRUD (Forms, Pages, Services, Tables, Models)
+- Fix Login Screen
+- Create Layouts for diffent tenant
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Kubernetes
+
+- Wildcard Certificates
+- Metrics, logging & Tracing
+- Deploy Resources
+- Rolling Updates
+
+Concepts
+
+- Labels and Selectors
+- Secrets and ConfigMaps
+- Taints and Tolerations
+- Node Affinity
+- Resource Limits
+- DaemonSets
+- Volumes
+- Jobs
+- Networking policies
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Main Project Tasks X
+
+- Development Environment (windows 11)
+- Configure Homepage Dashboard
+
+- Finalise & Test API
+
+- Finalise & Test Blazor
+-- Cleanup CRUD Operation UI
+-- Login Access With admin & customer
+
+- ArgoCD Rolling Updates 
+
+---------------------------------------------------
+
+
+Blazor
+
+0. Get API Ready - Repository
+1. Create CRUD Category Customers
