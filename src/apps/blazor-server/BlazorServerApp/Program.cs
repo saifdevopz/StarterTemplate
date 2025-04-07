@@ -1,4 +1,5 @@
-using BlazorServerTemplate.Components;
+using BlazorServerApp.Components;
+using Syncfusion.Blazor;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-WebApplication app = builder.Build();
+// Syncfusion
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NNaF5cXmBCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWXtedHZXRGZcVkVxWkBWYUA=");
+builder.Services.AddSyncfusionBlazor();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

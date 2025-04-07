@@ -10,7 +10,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
     ports:
-      - "8055:8080"
+      - "5000:8080"
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.parent-api.loadbalancer.server.port=8080"

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\blazor-common\Blazor.Common\Blazor.Common.csproj" />
     <ProjectReference Include="..\BlazorTemplate.Common\BlazorTemplate.Common.csproj" />
   </ItemGroup>
 

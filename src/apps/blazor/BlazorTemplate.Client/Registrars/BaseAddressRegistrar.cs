@@ -26,6 +26,8 @@ internal sealed class BaseAddressRegistrar : IWebAssemblyHostBuilderRegistrar
             .AddHttpMessageHandler<TokenDelegate>()
             .AddHttpMessageHandler<ErrorHandlerDelegate>();
 
-        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        string apiBaseUrl = builder.Configuration["ApiBaseUrl"]!;
+        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
     }
 }

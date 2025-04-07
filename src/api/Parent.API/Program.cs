@@ -18,11 +18,13 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Connection Strings
 string parentConnectionString = builder.Configuration.GetValueOrThrow<string>("PostgreSQL:DefaultConnection");
 string redisConnectionString = builder.Configuration.GetValueOrThrow<string>("Redis:DefaultConnection");
-//RabbitMqSettings rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqSettings>()!;
 
 // Controller API Support
 builder.Services.AddControllers().AddJsonOptions(x =>
      x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+// Minimal API Support
+builder.Services.AddEndpointsApiExplorer();
 
 // Serilog
 builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
@@ -30,9 +32,6 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configu
 // Global Exception Handling
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
-
-// Minimal API Support
-builder.Services.AddEndpointsApiExplorer();
 
 // Application Module Assemblies
 Assembly[] moduleApplicationAssemblies =
@@ -49,8 +48,6 @@ builder.Services.AddCommonInfrastructure(
     [
         ParentModule.ConfigureConsumers,
     ],
-    //rabbitMqSettings,
-    //parentConnectionString,
     redisConnectionString);
 
 // Adding Other Modules
@@ -64,17 +61,6 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(parentConnectionString)
-    //.AddRabbitMQ(sp =>
-    //{
-    //    ConnectionFactory factory = new()
-    //    {
-    //        HostName = rabbitMqSettings.Host,
-    //        UserName = rabbitMqSettings.UserName,
-    //        Port = 5672,
-    //        Password = rabbitMqSettings.Password,
-    //    };
-    //    return factory.CreateConnectionAsync();
-    //})
     .AddRedis(redisConnectionString);
 
 // Add CORS
@@ -88,9 +74,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Open Telemmetry
+builder.Logging.AddOpenTelemetry(options =>
+{
+    options.IncludeScopes = true;
+    options.IncludeFormattedMessage = true;
+});
+
 WebApplication app = builder.Build();
 
 app.UseCors("MyPolicy");
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 

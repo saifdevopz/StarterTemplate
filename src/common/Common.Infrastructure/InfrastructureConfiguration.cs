@@ -15,6 +15,8 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Quartz;
@@ -104,7 +106,7 @@ public static class InfrastructureConfiguration
             //});
         });
 
-        // OpenTelemetry tracing
+        // OpenTelemetry
         services
                 .AddOpenTelemetry()
                 .ConfigureResource(resource => resource.AddService(serviceName))
@@ -118,8 +120,14 @@ public static class InfrastructureConfiguration
                         .AddNpgsql()
                         .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName);
 
-                    tracing.AddOtlpExporter();
-                });
+                    //tracing.AddOtlpExporter();
+                })
+                .WithMetrics(metrics => metrics
+                    .AddHttpClientInstrumentation()
+                    .AddAspNetCoreInstrumentation()
+                    .AddRuntimeInstrumentation())
+                .UseOtlpExporter();
+
 
         return services;
     }

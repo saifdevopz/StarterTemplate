@@ -1,0 +1,85 @@
+﻿@page "/inventory"
+@using Syncfusion.Blazor.Notifications
+
+<PageTitle>InventoryIndex</PageTitle>
+
+<h1>Inventory Index</h1>
+
+<h3 class="test-style">Hello</h3>
+
+<SfGrid ID="Grid"
+        DataSource="@ProductList"
+        AllowPaging="true" 
+        AllowSorting="true" 
+        AllowFiltering="true" 
+        AllowGrouping="true"
+        AllowResizing="true"
+        AllowReordering="true"       
+        AllowPdfExport="true"
+        AllowExcelExport="true">
+        
+    <GridPageSettings PageSize="20"></GridPageSettings>
+    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
+    <GridColumns>
+        <GridColumn Field="@nameof(mGetAllProducts.Id)" HeaderText="Tenant Code" Width="120"></GridColumn>
+        <GridColumn Field=@nameof(mGetAllProducts.Name) HeaderText="Tenant Name" Width="150"></GridColumn>
+        <GridColumn Width="10">
+            <Template>
+                @{
+                    var contact = context as mGetAllProducts;
+                    <SfButton CssClass="e-inherit" IconCss="e-icons e-edit"></SfButton>
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Width="10">
+            <Template>
+                @{
+                    var contact = context as mGetAllProducts;
+                    // <SfButton CssClass="e-inherit" IconCss="e-icons e-delete"
+                    //             OnClick="@(() => DeleteContact(contact!))"></SfButton>
+                }
+            </Template>
+        </GridColumn>
+    </GridColumns>    
+</SfGrid>
+
+
+@code {
+    private List<mGetAllProducts> ProductList = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAllProductsAsync();
+    }
+
+    private async Task GetAllProductsAsync()
+    {
+        try
+        {
+            var response = await _HttpClient.GetFromJsonAsync<List<mGetAllProducts>>("tenant/all");
+
+            if (response is not null)
+            {
+                ProductList = response;
+            }
+            else
+            {
+                Console.WriteLine("No tenants found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching tenants: {ex.Message}");
+
+        }
+
+    }
+
+    public class mGetAllProducts
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Desc { get; set; } = string.Empty;
+    }
+
+}

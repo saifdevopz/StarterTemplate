@@ -1,0 +1,129 @@
+﻿@page "/tenant/index"
+@using Syncfusion.Blazor.Grids
+
+<h3>TenantIndex</h3>
+
+<SfGrid ID="Grid"
+        @ref="DefaultGrid"
+        DataSource="@TenantList"
+        Toolbar=@ToolbarItems
+        AllowPaging="true" 
+        AllowSorting="true" 
+        AllowFiltering="true" 
+        AllowGrouping="true"
+        AllowResizing="true"
+        AllowReordering="true"
+       
+        AllowPdfExport="true"
+        AllowExcelExport="true">
+        
+    <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="GetAllTenants"></GridEvents>
+    <GridPageSettings PageSize="20"></GridPageSettings>
+    <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
+    <GridColumns>
+        <GridColumn Field="@nameof(GetAllTenants.TenantTypeCode)" HeaderText="Tenant Code" Width="120"></GridColumn>
+        <GridColumn Field=@nameof(GetAllTenants.TenantTypeName) HeaderText="Tenant Name" Width="150"></GridColumn>
+        <GridColumn Width="10">
+            <Template>
+                @{
+                    var contact = context as GetAllTenants;
+                    <SfButton CssClass="e-inherit" IconCss="e-icons e-edit"></SfButton>
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn Width="10">
+            <Template>
+                @{
+                    var contact = context as GetAllTenants;
+                    <SfButton CssClass="e-inherit" IconCss="e-icons e-delete"
+                                OnClick="@(() => DeleteContact(contact!))"></SfButton>
+                }
+            </Template>
+        </GridColumn>
+    </GridColumns>    
+</SfGrid>
+
+<SfDialog Width="335px" IsModal="true" @bind-Visible="showDeleteDialog">
+    <DialogTemplates>
+        <Header>Are you sure?</Header>
+        <Content>
+            <p>Do you really want to delete @contactToDelete.TenantTypeName</p>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="Yep." IsPrimary="false" OnClick="ConfirmDeleteContact"></DialogButton>
+        <DialogButton Content="Nope." IsPrimary="true" OnClick="CancelDeleteContact"></DialogButton>
+    </DialogButtons>
+    <DialogAnimationSettings Effect="@DialogEffect.Zoom"></DialogAnimationSettings>
+</SfDialog>
+
+@code {
+    private SfGrid<GetAllTenants>? DefaultGrid;
+    bool showDeleteDialog = false;
+    public List<string> ToolbarItems = new List<string>() { "Delete","Search", "Print", "PdfExport", "ExcelExport" };
+    public List<GetAllTenants> TenantList { get; set; } = new List<GetAllTenants>();
+    GetAllTenants? contactToDelete;
+
+    public async Task ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (args.Item.Id == "Grid_pdfexport")  //Id is combination of Grid's ID and itemname
+        {
+            await this.DefaultGrid.ExportToPdfAsync();
+        }
+
+        if (args.Item.Id == "Grid_excelexport")
+        {
+            await this.DefaultGrid.ExportToExcelAsync();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetTenantsAsync();
+        StateHasChanged();
+    }
+
+    private async Task GetTenantsAsync()
+    {
+        var response = await _httpClient.GetFromJsonAsync<List<GetAllTenants>>("tenant/all");
+
+        if (response is not null)
+        {
+            TenantList = response.ToList();
+        }
+        else
+        {
+            Console.WriteLine("Error - GetTenantsAsync()");
+        }
+    }
+
+    void DeleteContact(GetAllTenants contact)
+    {
+        contactToDelete = contact;
+        showDeleteDialog = true;
+    }
+
+    void CancelDeleteContact()
+    {
+        showDeleteDialog = false;
+    }
+
+    async Task ConfirmDeleteContact()
+    {
+        if (contactToDelete is null)
+        {
+            return;
+        }
+
+        showDeleteDialog = false;
+        var result = await _httpClient.DeleteAsync($"api/contacts/{contactToDelete.TenantId}");
+        if (result.IsSuccessStatusCode)
+        {
+            var jsonResult = await result.Content.ReadFromJsonAsync<List<GetAllTenants>>();
+            if (jsonResult is not null)
+            {
+                TenantList = jsonResult;
+            }
+        }
+    }
+}
