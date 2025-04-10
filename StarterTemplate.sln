@@ -106,6 +106,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerApp", "src\apps
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "information", "information", "{980B1A75-AE90-4555-ACD3-169591BF7976}"
 	ProjectSection(SolutionItems) = preProject
+		information\blazor-checkpoint.txt = information\blazor-checkpoint.txt
 		information\packages.txt = information\packages.txt
 		information\pipeline.txt = information\pipeline.txt
 		information\scripts.txt = information\scripts.txt
@@ -285,7 +286,7 @@ Global
 		{33BD54ED-D9D8-4534-A359-BA07C377EB82} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		FileExplorer = 
 		SolutionGuid = {F792E4FB-5A8C-42FC-8EBE-1A5D70CFA95D}
+		FileExplorer = 
 	EndGlobalSection
 EndGlobal

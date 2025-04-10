@@ -1,0 +1,5 @@
+Blazor Server
+
+- Multi Tenant Login
+- Create Inventory Module (CategoryIndex | CategoryModify)
+

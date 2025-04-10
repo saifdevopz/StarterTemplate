@@ -1,0 +1,93 @@
+﻿@layout AuthLayout
+@page "/identity/account/login"
+@using Microsoft.AspNetCore.Authorization
+@attribute [AllowAnonymous]
+
+<div class="login-container">
+    <h1 class="custom-h1">Login</h1>
+    <SfDataForm ID="MyForm"
+                Model="@User"
+                OnValidSubmit="HandleLogin">
+        <FormValidator>
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+        </FormValidator>
+        <FormItems>
+            <FormAutoGenerateItems></FormAutoGenerateItems>
+        </FormItems>
+        <p class="error_response">@ErrorMessage</p>
+        <FormButtons>
+            <SfButton typeof="submit">Login</SfButton>
+        </FormButtons>
+    </SfDataForm>
+</div>
+
+<style>
+    .login-container{
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+    }
+
+    .custom-h1{
+        text-align: center;
+    }
+
+    .error_response{
+        margin: 15px 0 0 0;
+        color: crimson;
+    }
+</style>
+
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationState { get; set; }
+
+    public bool ShowLoadingButton { get; set; } = false;
+    public string? ErrorMessage { get; set; }
+    internal LoginDto User { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await CheckUserAuthentication();
+    }
+
+    private async Task CheckUserAuthentication()
+    {
+        var user = (await AuthenticationState!).User;
+        bool isUserAuthenticated = user.Identity!.IsAuthenticated;
+        if (isUserAuthenticated)
+        {
+            _navigationManager.NavigateTo("/home/dashboard");
+        }
+    }
+
+    public async Task HandleLogin()
+    {
+        ShowLoadingButton = true;
+        ErrorMessage = string.Empty;
+
+        var result = await _tokenService.LoginUser(User);
+        if (!string.IsNullOrWhiteSpace(result.Token))
+        {
+            var customAuthStateProvider = (CustomAuthenticationStateProvider)_authenticationStateProvider;
+            await customAuthStateProvider.UpdateAuthenticationState(new TokenResponse()
+            {
+                Token = result.Token,
+                RefreshToken = result.RefreshToken,
+                RefreshTokenExpiryTime = result.RefreshTokenExpiryTime
+            });
+
+            _NavigationManager.NavigateTo("/home/dashboard", forceLoad: false);
+        }
+        else
+        {
+            ErrorMessage = result.Error;
+        }
+
+        ShowLoadingButton = false;
+    }
+    
+}

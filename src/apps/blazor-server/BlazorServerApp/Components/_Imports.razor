@@ -1,5 +1,6 @@
 ﻿@using System.Net.Http
 @using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
@@ -8,9 +9,16 @@
 @using Microsoft.JSInterop
 @using BlazorServerApp
 @using BlazorServerApp.Components
+@using BlazorServerApp.Components.Layout
+@using System.Security.Claims
 
-
-
-@inject HttpClient _HttpClient
+@* Syncfusion *@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Grids
+
+@* Injection *@
+@inject NavigationManager _NavigationManager
+@inject IJSRuntime _IJSRuntime
+@inject AuthenticationStateProvider _AuthenticationStateProvider
+@inject HttpClient _HttpClient
+

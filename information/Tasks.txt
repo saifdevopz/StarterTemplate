@@ -15,11 +15,12 @@ API
 
 Blazor
 
-- API Error & Exception Handling
-_ Blazor CRUD (Forms, Pages, Services, Tables, Models)
-- Fix Login Screen
-- Create Layouts for diffent tenant
 
+
+-------------------------------------------------------------------------------------------------------------------------
+Containers
+
+- Backup & Update Homepage
 -------------------------------------------------------------------------------------------------------------------------
 
 Kubernetes
@@ -63,3 +64,8 @@ Blazor
 
 0. Get API Ready - Repository
 1. Create CRUD Category Customers
+
+- API Error & Exception Handling
+_ Blazor CRUD (Forms, Pages, Services, Tables, Models)
+- Fix Login Screen
+- Create Layouts for diffent tenant
