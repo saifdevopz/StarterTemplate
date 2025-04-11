@@ -1,6 +1,9 @@
 ﻿@layout AuthLayout
 @page "/identity/account/login"
+@using BlazorServerApp.Authentication
+@using BlazorServerApp.Dtos
 @using Microsoft.AspNetCore.Authorization
+@using Syncfusion.Blazor.DataForm
 @attribute [AllowAnonymous]
 
 <div class="login-container">
@@ -60,7 +63,7 @@
         bool isUserAuthenticated = user.Identity!.IsAuthenticated;
         if (isUserAuthenticated)
         {
-            _navigationManager.NavigateTo("/home/dashboard");
+            _NavigationManager.NavigateTo("/home/dashboard");
         }
     }
 
@@ -69,10 +72,10 @@
         ShowLoadingButton = true;
         ErrorMessage = string.Empty;
 
-        var result = await _tokenService.LoginUser(User);
+        var result = await _TokenService.LoginUser(User);
         if (!string.IsNullOrWhiteSpace(result.Token))
         {
-            var customAuthStateProvider = (CustomAuthenticationStateProvider)_authenticationStateProvider;
+            var customAuthStateProvider = (CustomAuthenticationStateProvider)_AuthenticationStateProvider;
             await customAuthStateProvider.UpdateAuthenticationState(new TokenResponse()
             {
                 Token = result.Token,
