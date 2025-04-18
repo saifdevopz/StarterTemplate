@@ -1,7 +1,7 @@
 services:
   gateway.api:
     image: ghcr.io/saifdevopz/gateway-api:latest
-    container_name: Starter.Gateway.API 
+    container_name: api-gateway
     build:
       context: .
       dockerfile: src/api/Gateway.API/Dockerfile

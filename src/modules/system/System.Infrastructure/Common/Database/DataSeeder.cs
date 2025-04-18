@@ -172,6 +172,6 @@ public class DataSeeder(SystemDbContext context)
 
     private static string GetSQLServerDatabaseConnectionString(string databaseName)
     {
-        return $"Server=102.211.206.231,1433;Database={databaseName};User Id=sa;Password=25122000SK;Encrypt=False;Trusted_Connection=True;TrustServerCertificate=True;Integrated Security=False";
+        return $"Server=102.211.206.231,1433;Database={databaseName};User Id=sa;Password=25122000Saif;Encrypt=False;Trusted_Connection=True;TrustServerCertificate=True;Integrated Security=False";
     }
 }

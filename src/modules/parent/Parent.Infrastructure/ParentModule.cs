@@ -44,7 +44,9 @@ public static class ParentModule
                                 .Endpoint(c => c.InstanceId = instanceId);
     }
 
+#pragma warning disable S1172 // Unused method parameters should be removed
     private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+#pragma warning restore S1172 // Unused method parameters should be removed
     {
         string defaultContextName = Assembly.GetCallingAssembly().GetName().Name!;
         services.AddTransient<IDbContextProvider>(sp =>
@@ -73,11 +75,11 @@ public static class ParentModule
             options.AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>());
         });
 
-        services.Configure<OutboxOptions>(configuration.GetSection("Events:Outbox"));
-        services.ConfigureOptions<ConfigureProcessOutboxJob>();
+        //services.Configure<OutboxOptions>(configuration.GetSection("Events:Outbox"));
+        //services.ConfigureOptions<ConfigureProcessOutboxJob>();
 
-        services.Configure<InboxOptions>(configuration.GetSection("Events:Inbox"));
-        services.ConfigureOptions<ConfigureProcessInboxJob>();
+        //services.Configure<InboxOptions>(configuration.GetSection("Events:Inbox"));
+        //services.ConfigureOptions<ConfigureProcessInboxJob>();
     }
 
     private static void AddDomainEventHandlers(this IServiceCollection services)

@@ -10,6 +10,9 @@
     <DockerServiceName>starter.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="src\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="docker-compose-blazor-pwa.yml" />
     <None Include="docker-compose.blazor-server.yml" />
     <None Include="docker-compose.child1.yml" />
@@ -17,6 +20,5 @@
     <None Include="docker-compose.gateway.yml" />
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-    <None Include="src\apps\blazor-server\BlazorServerApp\Components\Pages\Index\Component.razor" />
   </ItemGroup>
 </Project>

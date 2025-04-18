@@ -20,8 +20,15 @@ string parentConnectionString = builder.Configuration.GetValueOrThrow<string>("P
 string redisConnectionString = builder.Configuration.GetValueOrThrow<string>("Redis:DefaultConnection");
 
 // Controller API Support
-builder.Services.AddControllers().AddJsonOptions(x =>
-     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+builder.Services.AddControllers(options =>
+{
+    options.ReturnHttpNotAcceptable = true;
+})
+    .AddNewtonsoftJson()
+    .AddXmlSerializerFormatters()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
 
 // Minimal API Support
 builder.Services.AddEndpointsApiExplorer();
@@ -97,7 +104,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
         _.Servers = [];
     });
 
-    await app.ApplyAllMigrations();
+    //await app.ApplyAllMigrations();
 }
 
 app.MapHealthChecks("health", new HealthCheckOptions

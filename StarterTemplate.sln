@@ -113,6 +113,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "information", "information"
 		information\Tasks.txt = information\Tasks.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.API", "src\api\System.API\System.API.csproj", "{1A21D871-C855-4E34-A40A-D9889DC229A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -239,6 +241,10 @@ Global
 		{33BD54ED-D9D8-4534-A359-BA07C377EB82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33BD54ED-D9D8-4534-A359-BA07C377EB82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33BD54ED-D9D8-4534-A359-BA07C377EB82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A21D871-C855-4E34-A40A-D9889DC229A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A21D871-C855-4E34-A40A-D9889DC229A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A21D871-C855-4E34-A40A-D9889DC229A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A21D871-C855-4E34-A40A-D9889DC229A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -284,6 +290,7 @@ Global
 		{BA085A36-4F96-40B3-B8C4-27B696B1A18E} = {F5F16F09-E38A-454F-A132-26C20BC72F8E}
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {36565399-E8FD-4238-BD68-3479577607C7}
 		{33BD54ED-D9D8-4534-A359-BA07C377EB82} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{1A21D871-C855-4E34-A40A-D9889DC229A0} = {922F3D27-6430-4824-AF9C-2EA005EA17D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F792E4FB-5A8C-42FC-8EBE-1A5D70CFA95D}

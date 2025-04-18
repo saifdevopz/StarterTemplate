@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Parent.Domain.Inventory.CategoryGroup;
 
-namespace Parent.Infrastructure.Inventory.CategoryGroup;
+namespace Parent.Infrastructure.Common.Database.Configurations;
 
-internal sealed class CategoryGroupConfig : IEntityTypeConfiguration<CategoryGroupM>
+internal sealed class CategoryGroupConfiguration : IEntityTypeConfiguration<CategoryGroupM>
 {
     public void Configure(EntityTypeBuilder<CategoryGroupM> builder)
     {

@@ -4,6 +4,7 @@ using Common.Infrastructure.Outbox;
 using Microsoft.EntityFrameworkCore;
 using Parent.Application.Common;
 using Parent.Domain.Inventory.CategoryGroup;
+using Parent.Domain.TestEntities;
 using System.Reflection;
 
 namespace Parent.Infrastructure.Common.Database;
@@ -11,6 +12,9 @@ namespace Parent.Infrastructure.Common.Database;
 public sealed class ParentDbContext(DbContextOptions<ParentDbContext> options) : DbContext(options), IUnitOfWork
 {
     internal DbSet<CategoryGroupM> CategoryGroups => Set<CategoryGroupM>();
+    public DbSet<Habit> Habits { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<HabitTag> HabitTags { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

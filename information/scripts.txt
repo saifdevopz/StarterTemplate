@@ -1,3 +1,8 @@
+System
+
+Add-Migration -Name InitialCreate -Context SystemDbContext -OutputDir Infrastructure/Database/Migrations -Project System.API -StartupProject System.API
+Update-Database -Context SystemDbContext -Project System.API -StartupProject System.API 
+
 Gateway
 
 Add-Migration -Name InitialCreate -Context SystemDbContext -OutputDir Common/Database/Migrations -Project System.Infrastructure -StartupProject Gateway.API

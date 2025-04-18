@@ -17,7 +17,7 @@
         AllowPdfExport="true"
         AllowExcelExport="true">
         
-    <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="GetAllTenants"></GridEvents>
+    <GridEvents @* OnToolbarClick="ToolbarClickHandler" *@ TValue="GetAllTenants"></GridEvents>
     <GridPageSettings PageSize="20"></GridPageSettings>
     <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
     <GridColumns>
@@ -46,9 +46,9 @@
 <SfDialog Width="335px" IsModal="true" @bind-Visible="showDeleteDialog">
     <DialogTemplates>
         <Header>Are you sure?</Header>
-        <Content>
+@*         <Content>
             <p>Do you really want to delete @contactToDelete.TenantTypeName</p>
-        </Content>
+        </Content> *@
     </DialogTemplates>
     <DialogButtons>
         <DialogButton Content="Yep." IsPrimary="false" OnClick="ConfirmDeleteContact"></DialogButton>
@@ -64,18 +64,18 @@
     public List<GetAllTenants> TenantList { get; set; } = new List<GetAllTenants>();
     GetAllTenants? contactToDelete;
 
-    public async Task ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
-    {
-        if (args.Item.Id == "Grid_pdfexport")  //Id is combination of Grid's ID and itemname
-        {
-            await this.DefaultGrid.ExportToPdfAsync();
-        }
+    // public async Task ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    // {
+    //     // if (args.Item.Id == "Grid_pdfexport")  //Id is combination of Grid's ID and itemname
+    //     // {
+    //     //     await this.DefaultGrid.ExportToPdfAsync();
+    //     // }
 
-        if (args.Item.Id == "Grid_excelexport")
-        {
-            await this.DefaultGrid.ExportToExcelAsync();
-        }
-    }
+    //     // if (args.Item.Id == "Grid_excelexport")
+    //     // {
+    //     //     await this.DefaultGrid.ExportToExcelAsync();
+    //     // }
+    // }
 
     protected override async Task OnInitializedAsync()
     {

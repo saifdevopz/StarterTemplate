@@ -69,7 +69,7 @@ builder.Services
             .AddHttpClientInstrumentation()
             .AddSource("Yarp.ReverseProxy");
 
-        tracing.AddOtlpExporter();
+        //tracing.AddOtlpExporter();
     });
 
 //builder.Services.AddAuthorization();
